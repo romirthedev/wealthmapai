@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WealthMap AI - Let’s Talk Wealth</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-white text-gray-800">
+    <nav class="fixed top-0 w-full z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-mint">WealthMap AI</h1>
+            <ul class="flex space-x-6">
+                <li><a href="index.html" class="text-dark-gray hover:text-mint">Home</a></li>
+                <li><a href="how-it-works.html" class="text-dark-gray hover:text-mint">How It Works</a></li>
+                <li><a href="your-plan.html" class="text-dark-gray hover:text-mint">Your Plan</a></li>
+                <li><a href="investments.html" class="text-dark-gray hover:text-mint">Investments</a></li>
+                <li><a href="pricing.html" class="text-dark-gray hover:text-mint">Pricing</a></li>
+                <li><a href="contact.html" class="text-dark-gray hover:text-mint">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="contact" class="py-20 relative h-screen">
+        <canvas id="particle-canvas" class="absolute inset-0 z-0"></canvas>
+        <div class="container mx-auto text-center relative z-10">
+            <h2 class="text-4xl font-bold text-dark-gray mb-12">Let’s Talk Wealth</h2>
+            <form id="contact-form" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
+                <div class="relative mb-6">
+                    <input type="text" id="name" class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-mint peer" required>
+                    <label for="name" class="absolute left-3 top-3 text-dark-gray transition-all duration-300 peer-focus:-top-6 peer-focus:text-mint peer-valid:-top-6">Name</label>
+                </div>
+                <div class="relative mb-6">
+                    <input type="email" id="email" class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-mint peer" required>
+                    <label for="email" class="absolute left-3 top-3 text-dark-gray transition-all duration-300 peer-focus:-top-6 peer-focus:text-mint peer-valid:-top-6">Email</label>
+                </div>
+                <div class="relative mb-6">
+                    <textarea id="message" class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-mint peer" rows="4" required></textarea>
+                    <label for="message" class="absolute left-3 top-3 text-dark-gray transition-all duration-300 peer-focus:-top-6 peer-focus:text-mint peer-valid:-top-6">Message</label>
+                </div>
+                <button type="submit" class="px-6 py-3 bg-mint text-white rounded-full shadow-lg animate-pulse">Submit</button>
+            </form>
+            <div id="confirmation" class="hidden mt-6 text-mint text-xl">Thank you! We’ll get back to you soon.</div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.0/dist/lenis.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Particle Background
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 3 + 1,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
+            });
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = "#A4F9C8";
+                ctx.fill();
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Form Submission
+        document.getElementById("contact-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            gsap.to("#contact-form", { x: -100, opacity: 0, duration: 0.5, onComplete: () => {
+                document.getElementById("contact-form").classList.add("hidden");
+                document.getElementById("confirmation").classList.remove("hidden");
+                gsap.from("#confirmation", { opacity: 0, y: 20, duration: 1 });
+            }});
+        });
+
+        gsap.from("#contact-form", { opacity: 0, y: 50, duration: 1, ease: "power3.out" });
+    </script>
+</body>
+</html>
