@@ -1,0 +1,79 @@
+/* css/styles.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Colors */
+:root {
+    --mint: #A4F9C8;
+    --white: #FFFFFF;
+    --dark-gray: #333333;
+}
+
+.bg-mint { background-color: var(--mint); }
+.text-mint { color: var(--mint); }
+.text-dark-gray { color: var(--dark-gray); }
+
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+    background: var(--white);
+}
+
+/* 3D Text Animation */
+.animate-3d-text span {
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Typewriter Effect */
+.animate-typewriter {
+    overflow: hidden;
+    border-right: 0.15em solid var(--mint);
+    white-space: nowrap;
+    animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite, zoom-out 1s ease-out 3s forwards;
+}
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--mint); }
+}
+@keyframes zoom-out {
+    to { transform: scale(0.95); }
+}
+
+/* Neon Glow Hover */
+button:hover, a:hover {
+    box-shadow: 0 0 15px var(--mint);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+/* Parallax Background */
+.parallax-bg {
+    background: url('../assets/abstract-bg.png') no-repeat center center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Floating Card Animation */
+.floating-card {
+    animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
