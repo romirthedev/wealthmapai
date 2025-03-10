@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WealthMap AI - How It Works</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-white text-gray-800">
+    <nav class="fixed top-0 w-full z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-mint">WealthMap AI</h1>
+            <ul class="flex space-x-6">
+                <li><a href="index.html" class="text-dark-gray hover:text-mint">Home</a></li>
+                <li><a href="how-it-works.html" class="text-dark-gray hover:text-mint">How It Works</a></li>
+                <li><a href="your-plan.html" class="text-dark-gray hover:text-mint">Your Plan</a></li>
+                <li><a href="investments.html" class="text-dark-gray hover:text-mint">Investments</a></li>
+                <li><a href="pricing.html" class="text-dark-gray hover:text-mint">Pricing</a></li>
+                <li><a href="contact.html" class="text-dark-gray hover:text-mint">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="how-it-works" class="py-20 relative">
+        <div class="parallax-bg"></div>
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold text-dark-gray mb-12">Smarter Investing, No Guesswork</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="floating-card bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold text-mint">1. Enter Your Finances</h3>
+                    <input type="number" placeholder="Monthly Income" class="mt-4 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-mint">
+                    <input type="number" placeholder="Savings" class="mt-2 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-mint">
+                    <input type="number" placeholder="Expenses" class="mt-2 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-mint">
+                </div>
+                <div class="floating-card bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold text-mint">2. AI Creates Your Roadmap</h3>
+                    <canvas id="neural-canvas" class="mt-4 w-full h-32"></canvas>
+                </div>
+                <div class="floating-card bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold text-mint">3. Custom Results</h3>
+                    <canvas id="results-chart" class="mt-4 w-full h-32"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.0/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Neural Network Animation
+        const neuralCanvas = document.getElementById("neural-canvas");
+        const ctx = neuralCanvas.getContext("2d");
+        neuralCanvas.width = 300;
+        neuralCanvas.height = 128;
+        let nodes = [];
+        for (let i = 0; i < 10; i++) {
+            nodes.push({ x: Math.random() * 300, y: Math.random() * 128 });
+        }
+        function animateNeural() {
+            ctx.clearRect(0, 0, 300, 128);
+            nodes.forEach(n => {
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = "#A4F9C8";
+                ctx.fill();
+            });
+            requestAnimationFrame(animateNeural);
+        }
+        animateNeural();
+
+        // Results Chart
+        new Chart(document.getElementById("results-chart"), {
+            type: "line",
+            data: {
+                labels: ["Now", "5 Years", "10 Years"],
+                datasets: [{ label: "Savings", data: [5000, 15000, 30000], borderColor: "#A4F9C8" }]
+            },
+            options: { animation: { duration: 2000 } }
+        });
+
+        gsap.from(".floating-card", { opacity: 0, x: -50, stagger: 0.3, duration: 1, ease: "power3.out" });
+    </script>
+</body>
+</html>
